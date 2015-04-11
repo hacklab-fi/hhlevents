@@ -7,7 +7,9 @@ class Event(HappeningsEvent):
     gforms_url = models.URLField(blank=True)
     max_registrations = models.PositiveSmallIntegerField(default=0)
     close_registrations = models.DateTimeField(blank=True, null=True)
-
+    event_cost = models.PositiveSmallIntegerField(default=0)
+    materials_cost = models.PositiveSmallIntegerField(default=0)
+    materials_mandatory = models.BooleanField(default=False)
 
 
 class Person(models.Model):
@@ -35,6 +37,7 @@ class Registration(models.Model):
     registered = models.DateTimeField(default=datetime.datetime.now)
     cancelled = models.DateTimeField(blank=True, null=True)
     state = models.CharField(max_length=2, choices=STATES)
+    wants_materials = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s, %s <%s> (%s)' % (self.person.last_name, self.person.first_name, self.person.email, self.state)

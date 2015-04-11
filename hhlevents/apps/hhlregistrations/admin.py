@@ -10,7 +10,12 @@ class EventAdmin(HappeningsEventAdmin):
             'fields': ('start_date', 'end_date', 'all_day', 'repeat',
                        'end_repeat', 'title', 'description',
                        'created_by', 'max_registrations', 
-                       'extra_url', 'gforms_url')
+                       'extra_url', 'gforms_url',)
+        }),
+        ('Cost', {
+            'classes': ('collapse',),
+            'fields': ( 'event_cost', 'materials_cost', 'materials_mandatory',
+                       )
         }),
         ('Location', {
             'classes': ('collapse',),
