@@ -113,6 +113,7 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = (
     root('assets'),
 )
+STATIC_ROOT = root('static')
 
 TEMPLATE_DIRS = (
     root('templates'),

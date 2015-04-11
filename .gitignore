@@ -1,3 +1,7 @@
+hhlevents/reload
+.DS_Store
+*._*
+
 *.log
 
 *.py[codt]
