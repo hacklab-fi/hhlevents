@@ -10,7 +10,7 @@ root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 sys.path.insert(0, root('apps'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'setmeinenv')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,7 +49,7 @@ ROOT_URLCONF = 'hhlevents.urls'
 WSGI_APPLICATION = 'hhlevents.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -63,7 +63,7 @@ DATABASES = {
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
+# https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
 
@@ -77,7 +77,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
 
