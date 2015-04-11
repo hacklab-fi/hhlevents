@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'schedule',
+#    'schedule',
 )
 
 PROJECT_APPS = ()
@@ -130,7 +130,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.template.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     # Other
-    'django.core.context_processors.request',
+#    'django.core.context_processors.request',
 )
 
 # .local.py overrides all the common settings.
