@@ -55,11 +55,11 @@ WSGI_APPLICATION = 'hhlevents.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hhlevents',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'hhlevents'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'hhlevents'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', ''),
+        'HOST': os.environ.get('DJANGO_DB_HOST', ''),
+        'PORT': '',
     }
 }
 
@@ -68,7 +68,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'  # 'Europe/London'
+TIME_ZONE = 'Europe/Helsinki'  # 'Europe/London'
 
 USE_I18N = False
 
