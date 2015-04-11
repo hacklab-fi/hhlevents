@@ -9,6 +9,6 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
 
 #    url(r'^schedule/', include('schedule.urls')),
-
+    url(r'^calendar/', include('happenings.urls', namespace='calendar')),
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

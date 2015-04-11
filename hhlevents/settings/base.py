@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 #    'schedule',
+    'happenings',
 )
 
 PROJECT_APPS = ()
