@@ -55,7 +55,9 @@ INSTALLED_APPS = (
     'happenings',
 )
 
-PROJECT_APPS = ()
+PROJECT_APPS = (
+    'hhlregistrations',
+)
 
 INSTALLED_APPS += PROJECT_APPS
 
