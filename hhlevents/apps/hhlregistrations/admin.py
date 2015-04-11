@@ -1,4 +1,5 @@
 from django.contrib import admin
+from happenings.models import Event as HappeningsEvent
 from happenings.admin import EventAdmin as HappeningsEventAdmin
 from happenings.admin import CancellationInline
 
@@ -44,7 +45,9 @@ class EventAdmin(HappeningsEventAdmin):
     date_hierarchy = 'start_date'
     inlines = [CancellationInline]
 
-
+# Remove the happenings event admin
+admin.site.unregister(HappeningsEvent)
+# And use our own
 admin.site.register(Event, EventAdmin)
 admin.site.register(Person)
 admin.site.register(Registration)
