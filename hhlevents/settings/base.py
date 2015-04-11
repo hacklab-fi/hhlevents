@@ -50,7 +50,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'schedule',
 )
 
 PROJECT_APPS = ()
@@ -119,6 +120,18 @@ TEMPLATE_DIRS = (
     root('templates'),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Django defaults (NOTE: we should """Set the 'context_processors' option in the OPTIONS of a DjangoTemplates backend instead.""")
+    "django.contrib.auth.context_processors.auth",
+    "django.template.context_processors.debug",
+    "django.template.context_processors.i18n",
+    "django.template.context_processors.media",
+    "django.template.context_processors.static",
+    "django.template.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    # Other
+    'django.core.context_processors.request',
+)
 
 # .local.py overrides all the common settings.
 try:

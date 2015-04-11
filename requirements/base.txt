@@ -1,7 +1,6 @@
-# Versions are left out on purpose in order for you to use the latest ones.
-# After the first "pip install -r", just run "pip freeze" and add the version
-# to each package in each requirements/*.txt.
-
+# Framework
 Django==1.8
 django-model-utils==2.2
 psycopg2==2.6
+# Apps
+django-scheduler==0.7.4
