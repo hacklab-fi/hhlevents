@@ -1,5 +1,19 @@
 import sys
+import os
 from os.path import join, abspath, dirname
+
+# Normally you should not import ANYTHING from Django directly
+# into your settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
+from os import environ
+def get_env_setting(setting):
+	""" Get the environment setting or return exception """
+	try:
+		return environ[setting]
+	except KeyError:
+		error_msg = "Set the %s env variable" % setting
+		raise ImproperlyConfigured(error_msg)
+
 
 # PATH vars
 
@@ -10,11 +24,21 @@ root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 sys.path.insert(0, root('apps'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'mysupasiikrit')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+# Do not change this, set the ENV variable if you need to change the backend
+EMAIL_BACKEND = environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+
+EMAIL_HOST = environ.get('EMAIL_HOST', 'localhost')
+EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_PORT = environ.get('EMAIL_PORT', 25)
+EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER', '')
+DEFAULT_FROM_EMAIL=environ.get('EMAIL_DEFAULT_FROM', 'noreply@%s' % 'example.com')
+
 
 ALLOWED_HOSTS = []
 
