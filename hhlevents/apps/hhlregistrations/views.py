@@ -2,6 +2,7 @@
 import datetime
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from .forms import RegForm
 from .models import Event, Person, Registration
@@ -10,6 +11,7 @@ from .models import Event, Person, Registration
 class RegView(FormView):
     form_class = RegForm
     template_name = 'hhlregistrations/register.html'
+    success_url = reverse_lazy('registrations:regok_generic')
 
     def get_context_data(self, **kwargs):
         context = super(RegView, self).get_context_data(**kwargs)
