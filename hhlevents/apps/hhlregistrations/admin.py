@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.contrib import admin
 from happenings.models import Event as HappeningsEvent
 from happenings.admin import EventAdmin as HappeningsEventAdmin

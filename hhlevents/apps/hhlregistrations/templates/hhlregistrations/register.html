@@ -3,6 +3,8 @@
 {% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
 
 {% block content %}
+    <h1>{{ event.title }} | Ilmoittautuminen</h1>
+
     {% if not event.require_registration %}
         <p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p>
     {% endif %}
@@ -14,9 +16,67 @@
     {% endif %}
 
     {% if show_form %}
-    <form method="post">
+    <form method="post" class="rowformatted">
         {% csrf_token %}
-        {{ form }}
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Pakolliset tiedot</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.first_name.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.first_name.errors }}
+                {{ form.first_name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.last_name.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.last_name.errors }}
+                {{ form.last_name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.email.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.email.errors }}
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.email2.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.email2.errors }}
+                {{ form.email2 }}
+                <br>{{ form.email2.help_text }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Valinnaiset tiedot</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.is_member.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.is_member.errors }}
+                {{ form.is_member }}
+            </div>
+        </div>
+
         <input type="submit" class="btn btn-primary" value="Ilmoittaudu">
     </form>
     {% endif %}
