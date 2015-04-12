@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n admin_modify admin_static %}
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/widgets.css" %}" />
+    {{ form.media }}
+    {{ Attachments.media }}
+{% endblock extra_head %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="/jsi18n/"></script>
+    <script type="text/javascript" src="{% static "admin/js/core.js" %}"></script>
+    <script type="text/javascript" src="{% static "admin/js/jquery.init.js" %}"></script>
+    <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+{% endblock javascript %}

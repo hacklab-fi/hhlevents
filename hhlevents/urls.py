@@ -10,5 +10,6 @@ urlpatterns = patterns('',
 
 #    url(r'^schedule/', include('schedule.urls')),
     url(r'^calendar/', include('happenings.urls', namespace='calendar')),
+    url(r'^register/', include('hhlregistrations.urls', namespace='registrations')),
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

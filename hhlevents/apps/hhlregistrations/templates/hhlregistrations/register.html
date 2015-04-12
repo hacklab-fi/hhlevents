@@ -1,0 +1,24 @@
+{% extends "hhlregistrations/base_forms.html" %}
+
+{% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
+
+{% block content %}
+    {% if not event.require_registration %}
+        <p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p>
+    {% endif %}
+    {% if registration_closed %}
+        <p>Tähän tapahtumaan ei voi enää ilmoittautua</p>
+    {% endif %}
+    {% if waiting_list %}
+        <p>Tapahtuma on jo täynnä mutta voit ilmoittautua jonotuslistalle ja ilmoitamme mikäli paikkoja vapautuu</p>
+    {% endif %}
+
+    {% if show_form %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-primary" value="Ilmoittaudu">
+    </form>
+    {% endif %}
+{% endblock content %}
+
