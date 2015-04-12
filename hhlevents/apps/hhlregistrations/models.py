@@ -45,5 +45,8 @@ class Registration(models.Model):
     state = models.CharField(max_length=2, choices=STATES)
     wants_materials = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = (('event', 'person'),)
+
     def __unicode__(self):
         return u'%s, %s <%s> (%s)' % (self.person.last_name, self.person.first_name, self.person.email, self.state)

@@ -22,7 +22,13 @@ class RegForm(forms.Form):
         if email != email2:
             self.add_error('email2', u'E-Mail osoitteet eivät täsmää')
 
+        # TODO: Check for double registrations
+
         if cleaned_data.get('join', None):
             if not cleaned_data.get('city', None):
                 self.add_error('city', u'Jäseneksi liittyviltä vaaditaan paikkakunta')
-        return cleaned_data
+
+        
+        self.cleaned_data = cleaned_data
+        return self.cleaned_data
+        

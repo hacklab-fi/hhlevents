@@ -43,9 +43,25 @@ class RegView(FormView):
         return context
 
     def form_valid(self, form):
-        # TODO: save the data
+        context = self.get_context_data()
+        data = form.cleaned_data
         
-        return HttpResponseRedirect(self.get_success_url())
+        person, created = Person.objects.get_or_create(email=data['email'],
+            defaults={
+                'first_name': data['first_name'], 
+                'last_name': data['last_name'], 
+            }
+        )
+
+        # Just in case someone manages to sneak a double reg through the form
+        registration, created = Registration.objects.get_or_create(person=person, event=context['event'],
+            defaults={
+                'state': 'AC', 
+                'wants_materials': data['wants_materials'],
+            }
+        )
+
+        return super(RegView, self).form_valid(form)
 
 class RegOKView(TemplateView):
     template_name = 'hhlregistrations/register_ok.html'
