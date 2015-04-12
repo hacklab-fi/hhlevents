@@ -10,12 +10,14 @@ class EventAdmin(HappeningsEventAdmin):
         (None, {
             'fields': ('start_date', 'end_date', 'all_day', 'repeat',
                        'end_repeat', 'title', 'description',
-                       'created_by', 'max_registrations', 
-                       'extra_url', 'gforms_url',)
+                       'created_by', 'extra_url', 'gforms_url',
+                       )
         }),
-        ('Cost', {
+        ('Registrations', {
             'classes': ('collapse',),
-            'fields': ( 'event_cost', 'materials_cost', 'materials_mandatory',
+            'fields': ( 'require_registration', 'max_registrations', 'close_registrations',
+                        'event_cost', 'materials_cost', 'materials_mandatory',
+                        'payment_due',
                        )
         }),
         ('Location', {

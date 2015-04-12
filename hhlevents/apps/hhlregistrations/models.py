@@ -5,8 +5,10 @@ from happenings.models import Event as HappeningsEvent
 class Event(HappeningsEvent):
     extra_url = models.URLField(blank=True)
     gforms_url = models.URLField(blank=True)
+    require_registration = models.BooleanField(default=False)
     max_registrations = models.PositiveSmallIntegerField(default=0)
     close_registrations = models.DateTimeField(blank=True, null=True)
+    payment_due = models.DateTimeField(blank=True, null=True)
     event_cost = models.PositiveSmallIntegerField(default=0)
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
