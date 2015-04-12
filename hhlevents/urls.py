@@ -12,13 +12,13 @@ js_info_dict = {
 
 
 urlpatterns = patterns('',
-
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
 
     url(r'^calendar/', include('happenings.urls', namespace='calendar')),
+    url(r'^markdown/', include( 'django_markdown.urls')), # No namespace, the library cannot live with it...
     url(r'^register/', include('hhlregistrations.urls', namespace='registrations')),
-    url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^jsi18n', 'django.views.i18n.javascript_catalog', js_info_dict),
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

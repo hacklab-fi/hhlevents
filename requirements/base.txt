@@ -5,3 +5,4 @@ psycopg2==2.6
 # Apps
 #django-scheduler==0.7.4
 django-happenings==0.2.3
+django-markdown==0.8.4

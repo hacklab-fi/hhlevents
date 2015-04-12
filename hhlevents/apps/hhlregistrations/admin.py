@@ -1,5 +1,8 @@
 # -*- coding: UTF-8 -*-
 from django.contrib import admin
+from django.db import models
+from django_markdown.admin import MarkdownModelAdmin, AdminMarkdownWidget
+from django_markdown.models import MarkdownField
 from happenings.models import Event as HappeningsEvent
 from happenings.admin import EventAdmin as HappeningsEventAdmin
 from happenings.admin import CancellationInline
@@ -41,7 +44,10 @@ class EventAdmin(HappeningsEventAdmin):
             )
         }),
     )
-
+    formfield_overrides = {
+        MarkdownField: {'widget': AdminMarkdownWidget},
+        models.TextField: {'widget': AdminMarkdownWidget},
+    }
     list_display = ('title', 'start_date', 'end_date', 'repeat', 'end_repeat')
     list_filter = ['start_date']
     search_fields = ['title']

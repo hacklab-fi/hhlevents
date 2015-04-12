@@ -1,9 +1,12 @@
 {% extends "hhlregistrations/base_forms.html" %}
+{% load django_markdown %}
 
 {% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
 
 {% block content %}
     <h1>{{ event.title }} | Ilmoittautuminen</h1>
+    
+    {{ event.description|markdown }}
 
     {% if not event.require_registration %}
         <p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p>

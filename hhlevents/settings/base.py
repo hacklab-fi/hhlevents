@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 #    'schedule',
     'happenings',
+    'django_markdown',
 )
 
 PROJECT_APPS = (

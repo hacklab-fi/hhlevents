@@ -1,5 +1,7 @@
-from django.db import models
 import datetime
+from django.db import models
+from django_markdown.models import MarkdownField
+from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
 
 class Event(HappeningsEvent):
@@ -13,6 +15,7 @@ class Event(HappeningsEvent):
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
+
 
 
 class Person(models.Model):
