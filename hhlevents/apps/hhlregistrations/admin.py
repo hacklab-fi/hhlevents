@@ -18,7 +18,7 @@ class EventAdmin(HappeningsEventAdmin):
             'classes': ('collapse',),
             'fields': ( 'require_registration', 'max_registrations', 'close_registrations',
                         'event_cost', 'materials_cost', 'materials_mandatory',
-                        'payment_due',
+                        'payment_due', 'hide_join_checkbox',
                        )
         }),
         ('Location', {

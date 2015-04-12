@@ -26,6 +26,20 @@ class RegView(FormView):
             and Registration.objects.filter(state__in=('AC', 'CC')).count() >= context['event'].max_registrations):
             context['waiting_list'] = True
 
+        context['show_optional'] = True
+        context['show_join'] = True
+        if context['event'].hide_join_checkbox:
+            context['show_join'] = False
+
+        context['show_materials'] = False
+        if (    context['event'].materials_cost
+            and not context['event'].materials_mandatory):
+            context['show_materials'] = True
+
+        # Hide the whole optional section if we have nothing to show there
+        if True not in (context['show_join'], context['show_materials']):
+            context['show_optional'] = False
+
         return context
 
     def form_valid(self, form):

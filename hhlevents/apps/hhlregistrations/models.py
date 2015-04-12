@@ -12,6 +12,7 @@ class Event(HappeningsEvent):
     event_cost = models.PositiveSmallIntegerField(default=0)
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
+    hide_join_checkbox = models.BooleanField(default=False)
 
 
 class Person(models.Model):

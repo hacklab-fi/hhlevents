@@ -18,6 +18,10 @@
     {% if show_form %}
     <form method="post" class="rowformatted">
         {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        {{ form.non_field_errors }}
         <div class="row">
             <div class="col-md-12">
                 <h2>Pakolliset tiedot</h2>
@@ -62,20 +66,46 @@
         </div>
 
 
+        {% if show_optional %}
         <div class="row">
             <div class="col-md-12">
                 <h2>Valinnaiset tiedot</h2>
             </div>
         </div>
+        {% if show_materials %}
         <div class="row">
             <div class="col-md-2">
-                {{ form.is_member.label_tag }}
+                {{ form.wants_materials.label_tag }}
             </div>
             <div class="col-md-10">
-                {{ form.is_member.errors }}
-                {{ form.is_member }}
+                {{ form.wants_materials.errors }}
+                {{ form.wants_materials }}
+                Materiaalipaketti maksaa {{ event.materials_cost }} EURoa.
             </div>
         </div>
+        {% endif %}
+        {% if show_join %}
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.join.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.join.errors }}
+                {{ form.join }}
+                Olen lukenut <a href="http://helsinki.hacklab.fi/liity/" target="_blank">liittymissivun</a> ja hyväksyn <a href="http://helsinki.hacklab.fi/yhdistys/yhdistyksen-saannot/" target="_blank">Helsinki Hacklab ry:n säännöt</a>.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form.city.label_tag }}
+            </div>
+            <div class="col-md-10">
+                {{ form.city.errors }}
+                {{ form.city }}
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
 
         <input type="submit" class="btn btn-primary" value="Ilmoittaudu">
     </form>
