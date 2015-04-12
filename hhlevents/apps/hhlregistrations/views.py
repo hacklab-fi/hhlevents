@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 import datetime
+from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
 from django.views.generic import FormView, TemplateView
 from .forms import RegForm
@@ -60,6 +61,22 @@ class RegView(FormView):
                 'wants_materials': data['wants_materials'],
             }
         )
+        
+        if data['join']:
+            mail = EmailMessage()
+            mail.from_email = person.formatted_email
+            # TODO: read this from settings
+            mail.to = ['hallitus@helsinki.hacklab.fi', person.formatted_email]
+            mail.subject = u'Jäsenhakemus (ilmoittautumislomakkeelta)'
+            mail.body = """
+Nimi: {lname}, {fname}
+Paikkakunta: {city}
+
+Haen jäseneksi, hyväksyn Helsinki Hacklab ry:n säännöt.
+            """.format(fname=person.first_name, lname=person.last_name, city=data['city']).strip()
+            
+            # TODO: Do not ignore, catch the error and tell the user to send the mail themself
+            mail.send(True)
 
         return super(RegView, self).form_valid(form)
 

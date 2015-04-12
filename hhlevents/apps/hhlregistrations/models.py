@@ -25,6 +25,10 @@ class Person(models.Model):
     banned = models.DateTimeField(blank=True, null=True, verbose_name=u'Automatically put to waiting list')
 
     def __unicode__(self):
+        return self.formatted_email
+
+    @property
+    def formatted_email(self):
         return u'%s, %s <%s>' % (self.last_name, self.first_name, self.email)
 
 
