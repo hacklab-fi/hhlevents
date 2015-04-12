@@ -1,10 +1,12 @@
 import datetime
+import uuid
 from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
 
 class Event(HappeningsEvent):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     extra_url = models.URLField(blank=True)
     gforms_url = models.URLField(blank=True)
     require_registration = models.BooleanField(default=False)
@@ -19,6 +21,7 @@ class Event(HappeningsEvent):
 
 
 class Person(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
@@ -41,6 +44,7 @@ class Registration(models.Model):
         ( 'WB', 'Waiting-list (due to ban)'),
     )
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     paid = models.DateTimeField(blank=True, null=True)
     event = models.ForeignKey(Event, related_name='persons', on_delete=models.CASCADE)
     person = models.ForeignKey(Person, related_name='events', on_delete=models.CASCADE)
