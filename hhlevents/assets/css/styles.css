@@ -1,0 +1,8 @@
+/*! project specific CSS goes here. */
+form.rowformatted input[type=text],
+form.rowformatted input[type=email],
+form.rowformatted textarea,
+form.rowformatted select
+{
+    width: 90%;
+}

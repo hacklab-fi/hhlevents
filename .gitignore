@@ -63,7 +63,6 @@ hhlevents/settings/local.py
 hhlevents/settings/production.py
 
 # collect static output directory
-hhlevents/assets/
 hhlevents/static/
 
 .DS_Store
