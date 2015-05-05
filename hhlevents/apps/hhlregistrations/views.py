@@ -3,9 +3,13 @@ import datetime
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView, DetailView
 from .forms import RegForm
 from .models import Event, Person, Registration
+from django.http import HttpResponse
+from django.core.mail import send_mail, BadHeaderError, EmailMultiAlternatives
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 
 class RegView(FormView):
@@ -84,4 +88,56 @@ Haen jäseneksi, hyväksyn Helsinki Hacklab ry:n säännöt.
 
 class RegOKView(TemplateView):
     template_name = 'hhlregistrations/register_ok.html'
+
+
+
+class ListDetailMixin(object):
+   def get_context_data(self, **kwargs):
+      return super(ListDetailMixin, self).get_context_data(**kwargs)
+
+# could need AdminPlus for showing on the admin main page, for now, use URL /admin/reg_sum/
+class Summary(ListDetailMixin, ListView, DetailView):
+   context_object_name = 'reg_sum'
+   template_name = 'hhlregistrations/summary.html'
+   queryset = Event.objects.all()
+   slug_field = 'event_slug'
+   
+   def get(self, request, *args, **kwargs):
+       self.object = self.get_object()
+       return super(Summary, self).get(self, request, *args, **kwargs)
+   
+   def post(self, request, *args, **kwargs):
+       self.object = self.get_object()
+       print(self.object)
+       return self.send_email(request, *args, **kwargs)
+   
+   def get_object(self, queryset=None):
+       try:
+           sel_event = Event.objects.get(uuid=self.kwargs['slug'])
+           print(self.kwargs['slug'])
+       except:
+           sel_event = Event.objects.all()[0] # default event, this could be changed to something more intuitive
+       return sel_event
+   
+   def send_email(self, request, *args, **kwargs):
+       subject = request.POST.get('subject', '')
+       message = request.POST.get('message', '')
+       from_email = request.POST.get('reply_to', '')
+       extra_cc = [request.POST.get('extra_recipient', '')]
+       bcc_to = []
+       registrants = self.object.getRegistrants()
+       for r in registrants:
+           bcc_to.append(r.person.email)
+       msg = EmailMultiAlternatives(subject, message, from_email, [], bcc=bcc_to, cc=extra_cc)
+       print(bcc_to)
+       print(msg)
+       if subject and message and from_email:
+           try:
+               msg.send()
+           except BadHeaderError:
+               return HttpResponse('Invalid header found.')
+           messages.add_message(request, messages.INFO, 'Lähetetty viesti: "' + message + '   ---  Vastaanottajille: ' + ' '.join(bcc_to) +' '+ ' '.join(extra_cc))
+           return super(Summary, self).get(self, request, *args, **kwargs)
+       else:
+           return HttpResponse('Make sure all fields are entered and valid.')
 
