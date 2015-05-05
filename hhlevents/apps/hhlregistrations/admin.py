@@ -54,10 +54,18 @@ class EventAdmin(HappeningsEventAdmin):
     date_hierarchy = 'start_date'
     inlines = [CancellationInline]
 
+
+
+
+class RegistrationAdmin(admin.ModelAdmin):
+    search_fields = ['event__title', 'person__first_name', 'person__last_name', 'person__email']
+    list_filter = ['state']
+    list_display = ('person','event', 'state')
+
+
 # Remove the happenings event admin
 admin.site.unregister(HappeningsEvent)
 # And use our own
 admin.site.register(Event, EventAdmin)
 admin.site.register(Person)
-admin.site.register(Registration)
-
+admin.site.register(Registration, RegistrationAdmin)   
