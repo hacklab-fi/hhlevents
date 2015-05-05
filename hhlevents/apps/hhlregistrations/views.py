@@ -116,7 +116,7 @@ class Summary(ListDetailMixin, ListView, DetailView):
            sel_event = Event.objects.get(uuid=self.kwargs['slug'])
            print(self.kwargs['slug'])
        except:
-           sel_event = Event.objects.all()[0] # default event, this could be changed to something more intuitive
+           sel_event = None
        return sel_event
    
    def send_email(self, request, *args, **kwargs):
