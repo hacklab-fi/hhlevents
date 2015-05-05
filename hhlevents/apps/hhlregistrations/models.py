@@ -4,6 +4,7 @@ from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
+from django.utils import timezone
 
 class Event(HappeningsEvent):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
