@@ -1,0 +1,77 @@
+<!-- huom, tämä on nyt tehty pitkälti suomeksi, voi vaihtaa englanniksikin, jos tuntuu paremmalta -->
+
+
+{% extends "admin/base_site.html" %}
+
+
+{% block extrastyle %}
+<style>
+@media print
+{    
+   .no-print, .no-print *
+   {
+      display: none !important;
+   }
+}
+</style>
+{% endblock %}
+
+{% block title %} {{ object }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+
+{% block content %}
+     
+<h3>{{ object }}</h3>
+{% if object.isPast %}<h4 style="color: grey">Huom, tapahtuma on päättynyt</h4>{% endif %}
+       
+<div style="float:right;" class="no-print">
+  <table>
+     {% for list_item in object_list %}
+     <tr{% if list_item.isPast %} style="color: grey"{% endif %}>
+     <td><a href="./{{ list_item.uuid }}">{{ list_item }}</a></td>
+     <td>{{ list_item.start_date|date:"D d.m.Y H:i" }}</td>
+     <td>{{ list_item.end_date|date:"D d.m.Y H:i" }}</td>
+     <td>{{ list_item.location }}</td>
+     </tr>
+     {% endfor %}
+   </table>
+</div>
+       
+       <!-- Tapahtuman perustiedot -->
+<table>
+   <tr><td>Tapahtuma alkaa</td><td>{{ object.start_date|date:"D d.m.Y H:i" }}</td></tr><!-- tähän saisi jostain ehkä jonkun locale:n mukaisen esitystavan -->
+   <tr><td>Tapahtuma päätty</td><td>{{ object.end_date|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>Sijainti</td><td>{{ object.location }}</td></tr>
+   <tr><td>Suurin osallistujamäärä</td><td>{{ object.max_registrations }}</td></tr>
+   <tr><td>Ilmoittautuminen päättyy</td><td>{{ object.close_registrations|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>Osallistumismaksu</td><td>{{ object.event_cost }}</td></tr>
+   <tr><td>Materiaalimaksu</td><td>{{ object.materials_cost }}</td></tr>
+   <tr><td>Materiaalit pakollisia</td><td>{{ object.materials_mandatory }}</td></tr>
+   <tr><td>Eräpäivä</td><td>{{ object.payment_due|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>Erillinen lomake</td><td>{{ object.gforms_url }}</td></tr>
+</table>
+       
+       
+<h5>Osallistujat</h5>
+<ul>{% for reg in object.getRegistrants %}
+   <li>{{ reg }}</li>{% endfor %}
+</ul>
+<small>{% autoescape off %}{{ object.getStatsHTML }}{% endautoescape %}</small>
+       
+       
+<div class="no-print">
+  <h5>Lähetä sähköpostia kaikille osallistujille (BCC)</h5>
+  <form action="/admin/reg_sum/{{ object.uuid }}" method="POST"><!-- /admin/regsum/ varmaan korvattavissa jollain muuttujalla -->
+      <input type="text" name="subject" value="Viesti tapahtumasta {{ object }}" style="width: 450px"><br>        
+      <textarea name="message" rows="10" cols="60">Viesti</textarea><br>
+      {% csrf_token %}
+      <p>Lähetä kopio viestistä osoitteeseen (CC):</p>
+      <input type="text" name="extra_recipient" value="" style="width: 200px"><br>
+      <p>Vastaukset pyydetään lähettämään osoitteeseen (Reply-To):</p>
+      <input type="text" name="reply_to" value="noreply@example.com" style="width: 200px"><br>
+      <input type="submit" value="Submit">
+   </form>
+</div>
+
+{% endblock content %}
+

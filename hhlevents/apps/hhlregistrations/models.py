@@ -4,6 +4,7 @@ from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
+from django.utils import timezone
 
 class Event(HappeningsEvent):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -18,7 +19,24 @@ class Event(HappeningsEvent):
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
 
-
+    def getRegistrants(self):
+        return Registration.objects.all().filter(event = self.event).order_by('state', 'registered')
+    
+    def getStatsHTML(self):
+        n_AC = Registration.objects.all().filter(event = self.event).filter(state = 'AC').count()
+        n_CC = Registration.objects.all().filter(event = self.event).filter(state = 'CC').count()
+        n_WL = Registration.objects.all().filter(event = self.event).filter(state = 'WL').count()
+        n_CA = Registration.objects.all().filter(event = self.event).filter(state = 'CA').count()
+        n_WB = Registration.objects.all().filter(event = self.event).filter(state = 'WB').count()
+        return u'Assumed coming (AC): %s<br/>Confirmed coming (CC): %s<br/>Waiting-list (WL): %s<br/>Cancelled (CA): %s<br/>Waiting-list (due to ban) (WB): %s' % (n_AC, n_CC, n_WL, n_CA, n_WB)
+    
+    class Meta:
+        ordering = ["-end_date"]
+        
+    def isPast(self):
+        if timezone.now() > self.end_date:
+            return True
+        return False
 
 class Person(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
