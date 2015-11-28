@@ -31,7 +31,7 @@
      <td><a href="./{{ list_item.uuid }}">{{ list_item }}</a></td>
      <td>{{ list_item.start_date|date:"D d.m.Y H:i" }}</td>
      <td>{{ list_item.end_date|date:"D d.m.Y H:i" }}</td>
-     <td>{{ list_item.location }}</td>
+     <td>{% for loc in list_item.location.all %} | {{ loc }}{% endfor %}</td>
      </tr>
      {% endfor %}
    </table>
