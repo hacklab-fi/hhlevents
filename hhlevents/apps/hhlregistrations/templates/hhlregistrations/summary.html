@@ -31,7 +31,7 @@
      <td><a href="./{{ list_item.uuid }}">{{ list_item }}</a></td>
      <td>{{ list_item.start_date|date:"D d.m.Y H:i" }}</td>
      <td>{{ list_item.end_date|date:"D d.m.Y H:i" }}</td>
-     <td>{% for loc in list_item.location.all %} | {{ loc }}{% endfor %}</td>
+     {% if list_item.cancellations.all %}<td> <span style="color: #FF3030;" title="Tapahtumassa peruutuksia">&#9888;</span> </td>{% endif %}
      </tr>
      {% endfor %}
    </table>
@@ -41,7 +41,8 @@
 <table>
    <tr><td>Tapahtuma alkaa</td><td>{{ object.start_date|date:"D d.m.Y H:i" }}</td></tr><!-- tähän saisi jostain ehkä jonkun locale:n mukaisen esitystavan -->
    <tr><td>Tapahtuma päätty</td><td>{{ object.end_date|date:"D d.m.Y H:i"  }}</td></tr>
-   <tr><td>Sijainti</td><td>{{ object.location }}</td></tr>
+   <tr><td>Sijainti</td><td>{% for loc in list_item.location.all %} | {{ loc }}{% endfor %}</td></tr>
+   {% if list_item.cancellations.all %}<tr><td>Peruutukset</td><td>{% for can in list_item.cancellations.all %} | {{ can }}{% endfor %}<span style="color: #FF3030;" title="Tapahtumassa peruutuksia"> &#9888; </span></td>{% endif %}
    <tr><td>Suurin osallistujamäärä</td><td>{{ object.max_registrations }}</td></tr>
    <tr><td>Ilmoittautuminen päättyy</td><td>{{ object.close_registrations|date:"D d.m.Y H:i"  }}</td></tr>
    <tr><td>Osallistumismaksu</td><td>{{ object.event_cost }}</td></tr>

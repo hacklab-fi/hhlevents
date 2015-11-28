@@ -5,7 +5,9 @@
 
 {% block content %}
     {% if event.isCancelled %}
-        <div class="event_box ann_red">Huom. Tapahtuma jouduttu perumaan tältä päivältä.</div>
+        <div class="event_box ann_red">Huom. Tapahtumassa on peruutuksia.
+        <ul>{% for can in event.cancellations.all %}<li>{{ can.reason }} ({{ can.date|date:"Y-m-d" }})</li>{% endfor %}</ul>
+        </div>
         {% if event.hasMoreOccurrences %}
              <div class="event_box ann_green">Tapahtumassa on toistuvia jaksoja jäljellä</div>
         {% endif %}
@@ -17,7 +19,7 @@
     {% endif %}
         
     <h1>{{ event.title }} <span style="color:#A0A0A0;">| Ilmoittautuminen</span></h1>
-    <p id="time_and_location">{{ event.start_date|date:"D d.m.Y H:i" }} - {{ event.end_date|date:"D d.m.Y H:i" }} {% for loc in event.location.all %} | {{ loc }}{% endfor %}</emp>
+    <p id="time_and_location">{{ event.start_date|date:"D Y-m-d H:i" }} - {{ event.end_date|date:"D Y-m-d H:i" }} {% for loc in event.location.all %} | {{ loc }}{% endfor %}</emp>
     
     <div class="event_box">
     {{ event.description|markdown }}
