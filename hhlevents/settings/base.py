@@ -148,3 +148,6 @@ except ImportError:
 # importing test settings file if necessary
 if len(sys.argv) > 1 and 'test' in sys.argv[1]:
     from .testing import *
+
+# Markdown settings
+MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html"
