@@ -19,7 +19,7 @@ class Event(HappeningsEvent):
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
-
+    
     def formLink(self):
         tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
         if not self.require_registration:
@@ -28,7 +28,7 @@ class Event(HappeningsEvent):
         return tag
     formLink.allow_tags = True
     formLink.short_description = 'Form link'
-
+    
     def getParticipants(self):
         return Registration.objects.all().filter(event = self.event).order_by('state', 'registered')
     
@@ -42,12 +42,21 @@ class Event(HappeningsEvent):
     
     class Meta:
         ordering = ["-end_date"]
-        
+    
     def isPast(self):
         if timezone.now() > self.end_date:
             return True
         return False
-
+    def isCancelled(self):
+        if self.check_if_cancelled(timezone.now()):
+            return True
+        return False
+    def hasMoreOccurrences(self):
+        if self.will_occur(timezone.now()) and not self.repeats('NEVER'):
+            return True
+        return False
+        
+        
 class Person(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=150)

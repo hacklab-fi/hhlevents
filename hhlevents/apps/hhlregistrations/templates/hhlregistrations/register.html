@@ -4,10 +4,18 @@
 {% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
 
 {% block content %}
-    {% if event.isPast %}
-    <div class="event_box ann_red">Huom. Tapahtuma on päättynyt.</div>
+    {% if event.isCancelled %}
+        <div class="event_box ann_red">Huom. Tapahtuma jouduttu perumaan tältä päivältä.</div>
+        {% if event.hasMoreOccurrences %}
+             <div class="event_box ann_green">Tapahtumassa on toistuvia jaksoja jäljellä</div>
+        {% endif %}
+    {% elif event.isPast %}
+        <div class="event_box ann_red">Huom. Tapahtuma on päättynyt.</div>
+        {% if event.hasMoreOccurrences %}
+             <div class="event_box ann_green">Tapahtumassa on toistuvia jaksoja jäljellä</div>
+        {% endif %}
     {% endif %}
-    
+        
     <h1>{{ event.title }} <span style="color:#A0A0A0;">| Ilmoittautuminen</span></h1>
     <p id="time_and_location">{{ event.start_date }} - {{ event.end_date }}, {{ event.location }}</emp>
     
