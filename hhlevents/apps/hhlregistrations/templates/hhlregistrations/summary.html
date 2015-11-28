@@ -53,7 +53,7 @@
        
        
 <h5>Osallistujat</h5>
-<ul>{% for reg in object.getRegistrants %}
+<ul>{% for reg in object.getParticipants %}
    <li>{{ reg }}</li>{% endfor %}
 </ul>
 <small>{% autoescape off %}{{ object.getStatsHTML }}{% endautoescape %}</small>

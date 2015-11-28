@@ -5,6 +5,7 @@ from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 class Event(HappeningsEvent):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -19,7 +20,16 @@ class Event(HappeningsEvent):
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
 
-    def getRegistrants(self):
+    def formLink(self):
+        tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
+        if not self.require_registration:
+            # in italics if registration is optional
+            tag = '<i>(' + tag + ')</i>'
+        return tag
+    formLink.allow_tags = True
+    formLink.short_description = 'Form link'
+
+    def getParticipants(self):
         return Registration.objects.all().filter(event = self.event).order_by('state', 'registered')
     
     def getStatsHTML(self):

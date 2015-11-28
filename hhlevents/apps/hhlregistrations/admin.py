@@ -48,7 +48,7 @@ class EventAdmin(HappeningsEventAdmin):
         MarkdownField: {'widget': AdminMarkdownWidget},
         models.TextField: {'widget': AdminMarkdownWidget},
     }
-    list_display = ('title', 'start_date', 'end_date', 'repeat', 'end_repeat')
+    list_display = ('title', 'start_date', 'end_date', 'repeat', 'end_repeat', 'formLink')
     list_filter = ['start_date']
     search_fields = ['title']
     date_hierarchy = 'start_date'
