@@ -55,7 +55,10 @@ class Event(HappeningsEvent):
         if self.will_occur(timezone.now()) and not self.repeats('NEVER'):
             return True
         return False
-        
+    def hasCancellations(self):
+        if length(self.cancellations.all) > 0:
+            return True
+        return False
         
 class Person(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
