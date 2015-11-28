@@ -33,7 +33,7 @@ class RegView(FormView):
             and Registration.objects.filter(state__in=('AC', 'CC')).count() >= context['event'].max_registrations):
             context['waiting_list'] = True
 
-        context['show_optional'] = True
+        context['show_optional'] = False
         context['show_join'] = True
         if context['event'].hide_join_checkbox:
             context['show_join'] = False

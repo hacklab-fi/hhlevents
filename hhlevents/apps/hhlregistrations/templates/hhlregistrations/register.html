@@ -4,20 +4,27 @@
 {% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
 
 {% block content %}
-    <h1>{{ event.title }} | Ilmoittautuminen</h1>
+    {% if event.isPast %}
+    <div class="event_box ann_red">Huom. Tapahtuma on päättynyt.</div>
+    {% endif %}
     
+    <h1>{{ event.title }} <span style="color:#A0A0A0;">| Ilmoittautuminen</span></h1>
+    <p id="time_and_location">{{ event.start_date }} - {{ event.end_date }}, {{ event.location }}</emp>
+    
+    <div class="event_box">
     {{ event.description|markdown }}
+    </div>
 
     {% if not event.require_registration %}
-        <p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p>
+        <div class="event_box ann_green"><p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p></div>
     {% endif %}
     {% if registration_closed %}
-        <p>Tähän tapahtumaan ei voi enää ilmoittautua</p>
+        <div class="event_box ann_red"><p>Tähän tapahtumaan ei voi enää ilmoittautua</p></div>
     {% endif %}
     {% if waiting_list %}
-        <p>Tapahtuma on jo täynnä mutta voit ilmoittautua jonotuslistalle ja ilmoitamme mikäli paikkoja vapautuu</p>
+        <div class="event_box ann_yellow"><p>Tapahtuma on jo täynnä mutta voit ilmoittautua jonotuslistalle ja ilmoitamme mikäli paikkoja vapautuu</p></div>
     {% endif %}
-
+    
     {% if show_form %}
     <form method="post" class="rowformatted">
         {% csrf_token %}
@@ -27,7 +34,12 @@
         {{ form.non_field_errors }}
         <div class="row">
             <div class="col-md-12">
-                <h2>Pakolliset tiedot</h2>
+                {% if event.require_registration %}
+                <h2>Pakolliset ilmoittautumistiedot</h2>
+                {% else %}
+                <h2>Ilmoittautumistiedot</h2>
+                <small>Ilmoittautuminen ei ole pakollista, mutta suositeltavaa</small>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -87,6 +99,8 @@
             </div>
         </div>
         {% endif %}
+        
+        <!-- Valinnainen lisälomake jäseneksi liittymiseksi -->
         {% if show_join %}
         <div class="row">
             <div class="col-md-2">
@@ -95,7 +109,7 @@
             <div class="col-md-10">
                 {{ form.join.errors }}
                 {{ form.join }}
-                Olen lukenut <a href="http://helsinki.hacklab.fi/liity/" target="_blank">liittymissivun</a> ja hyväksyn <a href="http://helsinki.hacklab.fi/yhdistys/yhdistyksen-saannot/" target="_blank">Helsinki Hacklab ry:n säännöt</a>.
+                Olen lukenut <a href="http://helsinki.hacklab.fi/liity/" target="_blank">liittymissivun</a> ja hyväksyn <a href="http://helsinki.hacklab.fi/yhdistys/yhdistyksen-saannot/" target="_blank">yhdistyksen säännöt</a>.
             </div>
         </div>
         <div class="row">
