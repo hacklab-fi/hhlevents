@@ -1,0 +1,211 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 02:50+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/hhlregistrations/forms.py:7
+msgid "First name"
+msgstr "Etunimi"
+
+#: apps/hhlregistrations/forms.py:8
+msgid "Surname"
+msgstr "Sukunimi"
+
+#: apps/hhlregistrations/forms.py:9
+msgid "E-Mail"
+msgstr "Sähköposti"
+
+#: apps/hhlregistrations/forms.py:11
+msgid "I want materials package"
+msgstr "Haluan materiaalipaketin"
+
+#: apps/hhlregistrations/forms.py:14
+msgid "I want to join as a member"
+msgstr "Haluan liittyä jäseneksi"
+
+#: apps/hhlregistrations/forms.py:15
+msgid "Municipality"
+msgstr "Kotikunta"
+
+#: apps/hhlregistrations/models.py:31
+msgid "Form link"
+msgstr "Lomakkeen linkki"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:6
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:23
+msgid "Sign up for the event"
+msgstr "Ilmoittaudu tapahtumaan"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:10
+msgid "Note! There are cancellations in the event"
+msgstr "Huom! Tapahtumassa on peruutuksia"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:14
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:19
+msgid "There are recurring happenings in the event"
+msgstr "Tapahtumassa on toistuvia jaksoja"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:17
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:25
+msgid "Note! The event has ended"
+msgstr "Huom! Tapahtuma on päättynyt"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:31
+msgid "This event does not require pre-registering"
+msgstr "Tämä tapahtuma ei vaadi ennakkoilmoittautumista"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:34
+msgid "This event does accept further registering"
+msgstr "Tähän tapahtumaan ei voi enää ilmoittautua"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:37
+msgid ""
+"This event is full, but you can sign up for a place in queue. We will let "
+"you know if more places become available."
+msgstr ""
+"Tämä tapahtuma on täynnä, mutta voit ilmoittautua jonoon. Kerromme, jos "
+"paikkoja vapautuu."
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:50
+msgid "Mandatory registering information"
+msgstr "Pakolliset ilmoittautumistiedot"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:52
+msgid "Registering information"
+msgstr "Ilmoittautumistiedot"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:53
+msgid "Signing up is not required, but recommeded"
+msgstr "Ilmoittautuminen ei ole pakollista, mutta suositeltavaa"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:99
+msgid "Optional information"
+msgstr "Vapaaehtoiset tiedot"
+
+#: apps/hhlregistrations/templates/hhlregistrations/register.html:110
+msgid "Materials package costs"
+msgstr "Materiaalipaketin hinta"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:19
+msgid "Django site admin"
+msgstr "Djangon ylläpitäjä"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:42
+msgid "Event begins"
+msgstr "Tapahtuma alkaa"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:43
+msgid "Event ends"
+msgstr "Tapahtuma päättyy"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:44
+msgid "Location"
+msgstr "Sijainti"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:45
+msgid "Max. allowed participants"
+msgstr "Maksimi osallistujamäärä"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:46
+msgid "Registrations close"
+msgstr "Ilmoittautuminen päättyy"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:47
+msgid "Participation fee"
+msgstr "Osallistumismaksu"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:48
+msgid "Materials fee"
+msgstr "Materiaalimaksu"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:49
+msgid "Materials mandatory"
+msgstr "Materiaalit pakolliset"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:50
+msgid "Due date"
+msgstr "Eräpäivä"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:51
+msgid "Separate form"
+msgstr "Erillinen lomake"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:55
+msgid "Cancellations"
+msgstr "Peruutukset"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:62
+msgid "Participants"
+msgstr "Osallistujat"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:70
+msgid "Send E-mail to all participants (BCC)"
+msgstr "Lähetä sähköpostia kaikille osallistujille (BCC)"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:73
+msgid "Message"
+msgstr "Viesti"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:75
+msgid "Send copy of E-mail to address (CC):"
+msgstr "Lähetä kopio viestistä osoitteeseen (CC):"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:77
+msgid "Replies are asked to send to address (Reply-To):"
+msgstr "Viestin vastaukset pyydetään osoitteeseen (Reply-To):"
+
+#: apps/hhlregistrations/templates/hhlregistrations/summary.html:79
+msgid "Submit"
+msgstr "Lähetä"
+
+#: templates/admin/index.html:20
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: templates/admin/index.html:31
+msgid "Add"
+msgstr "Lisää"
+
+#: templates/admin/index.html:37
+msgid "Change"
+msgstr "Muuta"
+
+#: templates/admin/index.html:62
+msgid "You don't have permission to edit anything."
+msgstr "Sinulla ei ole oikeuksia muuttaa mitään"
+
+#: templates/admin/index.html:70
+msgid "Recent Actions"
+msgstr "Viimeisimmät tapahtumat"
+
+#: templates/admin/index.html:71
+msgid "My Actions"
+msgstr "Tapahtumani"
+
+#: templates/admin/index.html:75
+msgid "None available"
+msgstr "Ei saatavilla"
+
+#: templates/admin/index.html:89
+msgid "Unknown content"
+msgstr "Tuntematon sisältö"
+
+#: templates/base.html:39
+msgid "clear"
+msgstr "tyhjennä"

@@ -1,24 +1,26 @@
 {% extends "hhlregistrations/base_forms.html" %}
+{% load i18n %}
+
 {% load django_markdown %}
 
-{% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
+{% block title %}{{ event.title }} | {% trans "Sign up for the event" %}{% endblock title %}
 
 {% block content %}
     {% if event.isCancelled %}
-        <div class="event_box ann_red">Huom. Tapahtumassa on peruutuksia.
+        <div class="event_box ann_red">{% trans "Note! There are cancellations in the event" %}
         <ul>{% for can in event.cancellations.all %}<li>{{ can.reason }} ({{ can.date|date:"Y-m-d" }})</li>{% endfor %}</ul>
         </div>
         {% if event.hasMoreOccurrences %}
-             <div class="event_box ann_green">Tapahtumassa on toistuvia jaksoja jäljellä</div>
+             <div class="event_box ann_green">{% trans "There are recurring happenings in the event" %}</div>
         {% endif %}
     {% elif event.isPast %}
-        <div class="event_box ann_red">Huom. Tapahtuma on päättynyt.</div>
+        <div class="event_box ann_red">{% trans "Note! The event has ended" %}</div>
         {% if event.hasMoreOccurrences %}
-             <div class="event_box ann_green">Tapahtumassa on toistuvia jaksoja jäljellä</div>
+             <div class="event_box ann_green">{% trans "There are recurring happenings in the event" %}</div>
         {% endif %}
     {% endif %}
         
-    <h1>{{ event.title }} <span style="color:#A0A0A0;">| Ilmoittautuminen</span></h1>
+    <h1>{{ event.title }} <span style="color:#A0A0A0;">| {% trans "Sign up for the event" %}</span></h1>
     <p id="time_and_location">{{ event.start_date|date:"D Y-m-d H:i" }} - {{ event.end_date|date:"D Y-m-d H:i" }} {% for loc in event.location.all %} | {{ loc }}{% endfor %}</emp>
     
     <div class="event_box">
@@ -26,13 +28,13 @@
     </div>
 
     {% if not event.require_registration %}
-        <div class="event_box ann_green"><p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p></div>
+        <div class="event_box ann_green"><p>{% trans "This event does not require pre-registering" %}</p></div>
     {% endif %}
     {% if registration_closed %}
-        <div class="event_box ann_red"><p>Tähän tapahtumaan ei voi enää ilmoittautua</p></div>
+        <div class="event_box ann_red"><p>{% trans "This event does accept further registering" %}</p></div>
     {% endif %}
     {% if waiting_list %}
-        <div class="event_box ann_yellow"><p>Tapahtuma on jo täynnä mutta voit ilmoittautua jonotuslistalle ja ilmoitamme mikäli paikkoja vapautuu</p></div>
+        <div class="event_box ann_yellow"><p>T{% trans "This event is full, but you can sign up for a place in queue. We will let you know if more places become available." %}</p></div>
     {% endif %}
     
     {% if show_form %}
@@ -45,10 +47,10 @@
         <div class="row">
             <div class="col-md-12">
                 {% if event.require_registration %}
-                <h2>Pakolliset ilmoittautumistiedot</h2>
+                <h2>{% trans "Mandatory registering information" %}</h2>
                 {% else %}
-                <h2>Ilmoittautumistiedot</h2>
-                <small>Ilmoittautuminen ei ole pakollista, mutta suositeltavaa</small>
+                <h2>{% trans "Registering information" %}</h2>
+                <small>{% trans "Signing up is not required, but recommeded" %}</small>
                 {% endif %}
             </div>
         </div>
@@ -94,7 +96,7 @@
         {% if show_optional %}
         <div class="row">
             <div class="col-md-12">
-                <h2>Valinnaiset tiedot</h2>
+                <h2>{% trans "Optional information" %}</h2>
             </div>
         </div>
         {% if show_materials %}
@@ -105,12 +107,12 @@
             <div class="col-md-10">
                 {{ form.wants_materials.errors }}
                 {{ form.wants_materials }}
-                Materiaalipaketti maksaa {{ event.materials_cost }} EURoa.
+                {% trans "Materials package costs" %} {{ event.materials_cost }} EUR.
             </div>
         </div>
         {% endif %}
         
-        <!-- Valinnainen lisälomake jäseneksi liittymiseksi -->
+        <!-- Valinnainen lisälomake jäseneksi liittymiseksi, jätetään toistaiseksi näin -->
         {% if show_join %}
         <div class="row">
             <div class="col-md-2">

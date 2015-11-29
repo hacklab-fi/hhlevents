@@ -6,6 +6,7 @@ from django_markdown.models import MarkdownField
 from happenings.models import Event as HappeningsEvent
 from happenings.admin import EventAdmin as HappeningsEventAdmin
 from happenings.admin import CancellationInline
+from django.utils.translation import ugettext as _
 
 from .models import Event, Person, Registration
 

@@ -6,6 +6,7 @@ from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
 class Event(HappeningsEvent):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -27,7 +28,7 @@ class Event(HappeningsEvent):
             tag = '<i>(' + tag + ')</i>'
         return tag
     formLink.allow_tags = True
-    formLink.short_description = 'Form link'
+    formLink.short_description = _('Form link')
     
     def getParticipants(self):
         return Registration.objects.all().filter(event = self.event).order_by('state', 'registered')

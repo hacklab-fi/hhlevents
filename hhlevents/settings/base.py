@@ -66,6 +66,7 @@ INSTALLED_APPS += PROJECT_APPS
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -95,11 +96,13 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'en'
+LANGUAGES = (('fi', 'Finnish'),('en', 'English'),)
+LOCALE_PATHS = ( PROJECT_ROOT + '/locale/', )
+
+USE_I18N = True
 
 TIME_ZONE = 'Europe/Helsinki'  # 'Europe/London'
-
-USE_I18N = False
 
 USE_L10N = True
 
@@ -122,7 +125,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = root('static')
 
 TEMPLATE_DIRS = (
-    root('templates'),
+    root('templates'), 
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -148,6 +151,8 @@ except ImportError:
 # importing test settings file if necessary
 if len(sys.argv) > 1 and 'test' in sys.argv[1]:
     from .testing import *
+    
 
-# Markdown settings
-MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html"
+CALENDAR_LOCALE = "en_GB"  # ei toiminut macilla ilman
+MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html" # testi - ei toiminut ilman, ohittaa markdownin joka ei muutoin toimi
+
