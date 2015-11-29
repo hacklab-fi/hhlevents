@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 02:50+0200\n"
+"POT-Creation-Date: 2015-11-29 15:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,9 +42,29 @@ msgstr "Haluan liittyä jäseneksi"
 msgid "Municipality"
 msgstr "Kotikunta"
 
-#: apps/hhlregistrations/models.py:31
+#: apps/hhlregistrations/models.py:32
 msgid "Form link"
 msgstr "Lomakkeen linkki"
+
+#: apps/hhlregistrations/models.py:49
+msgid "event"
+msgstr "tapahtuma"
+
+#: apps/hhlregistrations/models.py:50
+msgid "events"
+msgstr "tapahtumat"
+
+#: apps/hhlregistrations/models.py:81
+msgid "participant"
+msgstr "osallistuja"
+
+#: apps/hhlregistrations/models.py:82
+msgid "participants"
+msgstr "osallistujat"
+
+#: apps/hhlregistrations/models.py:108 apps/hhlregistrations/models.py:109
+msgid "registration"
+msgstr "ilmoittautuminen"
 
 #: apps/hhlregistrations/templates/hhlregistrations/register.html:6
 #: apps/hhlregistrations/templates/hhlregistrations/register.html:23
@@ -185,6 +205,14 @@ msgstr "Lisää"
 #: templates/admin/index.html:37
 msgid "Change"
 msgstr "Muuta"
+
+#: templates/admin/index.html:50
+msgid "Tools"
+msgstr "Työkalut"
+
+#: templates/admin/index.html:53
+msgid "Event summaries"
+msgstr "Tapahtuman yhteenveto"
 
 #: templates/admin/index.html:62
 msgid "You don't have permission to edit anything."

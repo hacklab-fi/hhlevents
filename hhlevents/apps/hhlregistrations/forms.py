@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django import forms
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _ # Translating labels requires _lazy variant
 
 
 class RegForm(forms.Form):

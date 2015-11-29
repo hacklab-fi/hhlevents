@@ -6,7 +6,8 @@ from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _ # _lazy required
+
 
 class Event(HappeningsEvent):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -36,13 +37,17 @@ class Event(HappeningsEvent):
     def getStatsHTML(self):
         n_AC = Registration.objects.all().filter(event = self.event).filter(state = 'AC').count()
         n_CC = Registration.objects.all().filter(event = self.event).filter(state = 'CC').count()
+        n_CP = Registration.objects.all().filter(event = self.event).filter(state = 'CP').count()        
         n_WL = Registration.objects.all().filter(event = self.event).filter(state = 'WL').count()
         n_CA = Registration.objects.all().filter(event = self.event).filter(state = 'CA').count()
+        n_CR = Registration.objects.all().filter(event = self.event).filter(state = 'CR').count()
         n_WB = Registration.objects.all().filter(event = self.event).filter(state = 'WB').count()
-        return u'Assumed coming (AC): %s<br/>Confirmed coming (CC): %s<br/>Waiting-list (WL): %s<br/>Cancelled (CA): %s<br/>Waiting-list (due to ban) (WB): %s' % (n_AC, n_CC, n_WL, n_CA, n_WB)
+        return u'Assumed coming (AC): %s<br/>Confirmed coming (CC): %s</br>Confirmed, pre-payments OK (CP): %s<br/>Waiting-list (WL): %s<br/>Cancelled (CA): %s</br>Cancelled, refunded (CR): %s<br/>Waiting-list (due to ban) (WB): %s' % (n_AC, n_CC, n_CP, n_WL, n_CA, n_CR, n_WB)
     
     class Meta:
         ordering = ["-end_date"]
+        verbose_name = _('event')
+        verbose_name_plural = _('events')
     
     def isPast(self):
         if timezone.now() > self.end_date:
@@ -70,14 +75,20 @@ class Person(models.Model):
     @property
     def formatted_email(self):
         return u'%s, %s <%s>' % (self.last_name, self.first_name, self.email)
-
+    
+    class Meta:
+        ordering = ["last_name"]
+        verbose_name = _('participant')
+        verbose_name_plural = _('participants')
 
 class Registration(models.Model):
     STATES = (
         ( 'AC', 'Assumed coming'),
         ( 'CC', 'Confirmed coming'),
+        ( 'CP', 'Confirmed, pre-payments OK'),
         ( 'WL', 'Waiting-list'),
         ( 'CA', 'Cancelled'),
+        ( 'CR', 'Cancelled, refunded'),        
         ( 'WB', 'Waiting-list (due to ban)'),
     )
 
@@ -89,9 +100,13 @@ class Registration(models.Model):
     cancelled = models.DateTimeField(blank=True, null=True)
     state = models.CharField(max_length=2, choices=STATES)
     wants_materials = models.BooleanField(default=False)
+#   ajankohta milloin ilmoittautui? jonottaminen?
 
     class Meta:
         unique_together = (('event', 'person'),)
-
+        ordering = ["event"]
+        verbose_name = _('registration')
+        verbose_name_plural = _('registration')
+    
     def __unicode__(self):
         return u'%s, %s <%s> (%s)' % (self.person.last_name, self.person.first_name, self.person.email, self.state)
