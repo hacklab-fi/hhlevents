@@ -18,16 +18,15 @@ class EventAdmin(HappeningsEventAdmin):
                        'created_by', 'extra_url', 'gforms_url',
                        )
         }),
+        ('Location', {
+            'fields': ('location',)
+        }),
         ('Registrations', {
             'classes': ('collapse',),
             'fields': ( 'require_registration', 'max_registrations', 'close_registrations',
                         'event_cost', 'materials_cost', 'materials_mandatory',
                         'payment_due', 'hide_join_checkbox',
                        )
-        }),
-        ('Location', {
-            'classes': ('collapse',),
-            'fields': ('location',)
         }),
         ('Category', {
             'classes': ('collapse',),

@@ -6,3 +6,11 @@ form.rowformatted select
 {
     width: 90%;
 }
+
+/* Fix issue with collapsed elements in admin interface */
+fieldset.collapsed h2, fieldset.collapsed {
+    display: block;
+}
+.collapse {
+    display: inherit;
+}
