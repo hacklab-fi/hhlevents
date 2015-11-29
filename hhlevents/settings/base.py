@@ -155,4 +155,3 @@ if len(sys.argv) > 1 and 'test' in sys.argv[1]:
 
 # Markdown settings
 MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html"
-CALENDAR_LOCALE = "en_GB"  # ei toiminut macilla ilman
