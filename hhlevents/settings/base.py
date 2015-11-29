@@ -153,6 +153,5 @@ if len(sys.argv) > 1 and 'test' in sys.argv[1]:
     from .testing import *
     
 
-CALENDAR_LOCALE = "en_GB"  # ei toiminut macilla ilman
-MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html" # testi - ei toiminut ilman, ohittaa markdownin joka ei muutoin toimi
-
+-# Markdown settings
+-MARKDOWN_EDITOR_INIT_TEMPLATE = "base.html"
