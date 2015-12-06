@@ -138,7 +138,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.template.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     # Other
-#    'django.core.context_processors.request',
+    'django.core.context_processors.request',
+    'hhlregistrations.context_processors.organisation_settings',
 )
 
 # .local.py overrides all the common settings.

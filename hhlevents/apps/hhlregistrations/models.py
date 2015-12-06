@@ -4,9 +4,11 @@ from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
 from happenings.models import Event as HappeningsEvent
+from happenings.utils.next_event import get_next_event
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _ # _lazy required
+from datetime import date
 
 
 class Event(HappeningsEvent):
@@ -50,17 +52,28 @@ class Event(HappeningsEvent):
         verbose_name_plural = _('events')
     
     def isPast(self):
-        if timezone.now() > self.end_date:
+        if self.repeats('NEVER') and timezone.now() > self.end_date:
+            return True
+        elif self.end_repeat <= timezone.now().date():
             return True
         return False
     def isCancelled(self):
         if self.check_if_cancelled(timezone.now()):
             return True
         return False
-    def hasMoreOccurrences(self):
-        if self.will_occur(timezone.now()) and not self.repeats('NEVER'):
-            return True
-        return False
+    def isRepeating(self):
+        if self.repeats('NEVER'):
+            return False
+        return True
+    def getNextEvent(self): # next occurrence of this happening
+        if self.repeats('NEVER'):
+            return self.start_date
+        elif self.end_repeat > timezone.now().date():
+            next = get_next_event([self], timezone.now())
+            pvm = date(next[0], next[1], next[2])
+            return pvm
+        # in case repetition has ended, show nothing
+        return None
 
 class Person(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
