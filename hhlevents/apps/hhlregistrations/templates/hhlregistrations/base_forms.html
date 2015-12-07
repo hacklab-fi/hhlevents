@@ -3,6 +3,52 @@
 {% block extra_head %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static "admin/css/widgets.css" %}" />
+
+<style>
+.row{
+    margin-top:    5px;
+    margin-bottom: 5px;
+}
+.h1{
+	margin-bottom: 20px;
+}
+#time_and_location {
+    font: Andale Mono, monospace;
+}
+.event_box {
+	margin-top:    20px;
+	margin-bottom: 20px;
+	padding:       10px 20px;
+	min-height:    50px;
+	border-left:   3px solid #A0A0A0;
+	background:    #F3F3F3;
+}
+.ann_red {
+	border-left:   3px solid #D58282;
+	background:    #F6DFDF;
+}
+.ann_yellow {
+	border-left:   3px solid #C7CC79;
+	background:    #FDFFD9;
+}
+.ann_green {
+	border-left:   3px solid #88D588;
+	background:    #D1FFD7;
+}
+#event_main_info {
+	display:       inline-block;
+	margin:        20px 0px;
+}
+#event_img {
+	float:         left;
+}
+#event_description {
+    padding:       10px 25px;
+    display:       inline-block;
+}
+
+</style>
+
     {{ form.media }}
     {{ Attachments.media }}
 {% endblock extra_head %}

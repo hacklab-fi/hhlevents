@@ -1,7 +1,7 @@
-<!-- huom, tämä on nyt tehty pitkälti suomeksi, voi vaihtaa englanniksikin, jos tuntuu paremmalta -->
-
-
 {% extends "admin/base_site.html" %}
+
+<!-- huom, tämä on nyt tehty pitkälti suomeksi, voi vaihtaa englanniksikin, jos tuntuu paremmalta -->
+{% load i18n %}
 
 
 {% block extrastyle %}
@@ -20,9 +20,9 @@
 
 
 {% block content %}
-     
+
 <h3>{{ object }}</h3>
-{% if object.isPast %}<h4 style="color: grey">Huom, tapahtuma on päättynyt</h4>{% endif %}
+{% if object.isPast %}<h4 style="color: grey">{% trans "Note! The event has ended" %}</h4>{% endif %}
        
 <div style="float:right;" class="no-print">
   <table>
@@ -31,45 +31,52 @@
      <td><a href="./{{ list_item.uuid }}">{{ list_item }}</a></td>
      <td>{{ list_item.start_date|date:"D d.m.Y H:i" }}</td>
      <td>{{ list_item.end_date|date:"D d.m.Y H:i" }}</td>
-     <td>{{ list_item.location }}</td>
+     <td>{% if list_item.cancellations.count > 0 %} <span style="color: #FF3030;" title="Cancellations in the event">&#9888;</span>{% endif %}</td>
      </tr>
      {% endfor %}
    </table>
 </div>
-       
+
        <!-- Tapahtuman perustiedot -->
 <table>
-   <tr><td>Tapahtuma alkaa</td><td>{{ object.start_date|date:"D d.m.Y H:i" }}</td></tr><!-- tähän saisi jostain ehkä jonkun locale:n mukaisen esitystavan -->
-   <tr><td>Tapahtuma päätty</td><td>{{ object.end_date|date:"D d.m.Y H:i"  }}</td></tr>
-   <tr><td>Sijainti</td><td>{{ object.location }}</td></tr>
-   <tr><td>Suurin osallistujamäärä</td><td>{{ object.max_registrations }}</td></tr>
-   <tr><td>Ilmoittautuminen päättyy</td><td>{{ object.close_registrations|date:"D d.m.Y H:i"  }}</td></tr>
-   <tr><td>Osallistumismaksu</td><td>{{ object.event_cost }}</td></tr>
-   <tr><td>Materiaalimaksu</td><td>{{ object.materials_cost }}</td></tr>
-   <tr><td>Materiaalit pakollisia</td><td>{{ object.materials_mandatory }}</td></tr>
-   <tr><td>Eräpäivä</td><td>{{ object.payment_due|date:"D d.m.Y H:i"  }}</td></tr>
-   <tr><td>Erillinen lomake</td><td>{{ object.gforms_url }}</td></tr>
+   <tr><td>{% trans "Event begins" %}</td><td>{{ object.start_date|date:"D d.m.Y H:i" }}</td></tr><!-- tähän saisi jostain ehkä jonkun locale:n mukaisen esitystavan -->
+   <tr><td>{% trans "Event ends" %}</td><td>{{ object.end_date|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>{% trans "Location" %}</td><td>{% for loc in list_item.location.all %} | {{ loc }}{% endfor %}</td></tr>
+   <tr><td>{% trans "Max. allowed participants" %}</td><td>{{ object.max_registrations }}</td></tr>
+   <tr><td>{% trans "Registrations close" %}</td><td>{{ object.close_registrations|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>{% trans "Participation fee" %}</td><td>{{ object.event_cost }}</td></tr>
+   <tr><td>{% trans "Materials fee" %}</td><td>{{ object.materials_cost }}</td></tr>
+   <tr><td>{% trans "Materials mandatory" %}</td><td>{{ object.materials_mandatory }}</td></tr>
+   <tr><td>{% trans "Due date" %}</td><td>{{ object.payment_due|date:"D d.m.Y H:i"  }}</td></tr>
+   <tr><td>{% trans "Separate form" %}</td><td>{{ object.gforms_url }}</td></tr>
 </table>
-       
-       
-<h5>Osallistujat</h5>
-<ul>{% for reg in object.getRegistrants %}
+
+{% if object.cancellations.count > 0 %} 
+<h5>{% trans "Cancellations" %}<span style="color: #FF3030;" title="Cancellations in the event"> &#9888; </span></h5>
+<ul{% for can in object.cancellations.all %}
+   <li>{{ can.reason }} ({{ can.date|date:"Y-m-d" }})</li>{% endfor %}
+</ul>
+{% endif %} 
+
+
+<h5>{% trans "Participants" %}</h5>
+<ul>{% for reg in object.getParticipants %}
    <li>{{ reg }}</li>{% endfor %}
 </ul>
 <small>{% autoescape off %}{{ object.getStatsHTML }}{% endautoescape %}</small>
        
        
 <div class="no-print">
-  <h5>Lähetä sähköpostia kaikille osallistujille (BCC)</h5>
+  <h5>{% trans "Send E-mail to all participants (BCC)" %}</h5>
   <form action="/admin/reg_sum/{{ object.uuid }}" method="POST"><!-- /admin/regsum/ varmaan korvattavissa jollain muuttujalla -->
-      <input type="text" name="subject" value="Viesti tapahtumasta {{ object }}" style="width: 450px"><br>        
-      <textarea name="message" rows="10" cols="60">Viesti</textarea><br>
+      <input type="text" name="subject" value="Viesti tapahtumasta / Message about event: {{ object }}" style="width: 450px"><br>        
+      <textarea name="message" rows="10" cols="60">{% trans "Message" %}</textarea><br>
       {% csrf_token %}
-      <p>Lähetä kopio viestistä osoitteeseen (CC):</p>
+      <p>{% trans "Send copy of E-mail to address (CC):" %}</p>
       <input type="text" name="extra_recipient" value="" style="width: 200px"><br>
-      <p>Vastaukset pyydetään lähettämään osoitteeseen (Reply-To):</p>
+      <p>{% trans "Replies are asked to send to address (Reply-To):" %}</p>
       <input type="text" name="reply_to" value="noreply@example.com" style="width: 200px"><br>
-      <input type="submit" value="Submit">
+      <input type="submit" value="{% trans 'Submit' %}">
    </form>
 </div>
 

@@ -6,6 +6,7 @@ from django_markdown.models import MarkdownField
 from happenings.models import Event as HappeningsEvent
 from happenings.admin import EventAdmin as HappeningsEventAdmin
 from happenings.admin import CancellationInline
+from django.utils.translation import ugettext as _
 
 from .models import Event, Person, Registration
 
@@ -17,16 +18,15 @@ class EventAdmin(HappeningsEventAdmin):
                        'created_by', 'extra_url', 'gforms_url',
                        )
         }),
+        ('Location', {
+            'fields': ('location',)
+        }),
         ('Registrations', {
             'classes': ('collapse',),
             'fields': ( 'require_registration', 'max_registrations', 'close_registrations',
                         'event_cost', 'materials_cost', 'materials_mandatory',
                         'payment_due', 'hide_join_checkbox',
                        )
-        }),
-        ('Location', {
-            'classes': ('collapse',),
-            'fields': ('location',)
         }),
         ('Category', {
             'classes': ('collapse',),
@@ -48,7 +48,7 @@ class EventAdmin(HappeningsEventAdmin):
         MarkdownField: {'widget': AdminMarkdownWidget},
         models.TextField: {'widget': AdminMarkdownWidget},
     }
-    list_display = ('title', 'start_date', 'end_date', 'repeat', 'end_repeat')
+    list_display = ('title', 'start_date', 'end_date', 'repeat', 'end_repeat', 'formLink')
     list_filter = ['start_date']
     search_fields = ['title']
     date_hierarchy = 'start_date'

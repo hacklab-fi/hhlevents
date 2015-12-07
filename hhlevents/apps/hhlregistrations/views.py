@@ -33,7 +33,7 @@ class RegView(FormView):
             and Registration.objects.filter(state__in=('AC', 'CC')).count() >= context['event'].max_registrations):
             context['waiting_list'] = True
 
-        context['show_optional'] = True
+        context['show_optional'] = False
         context['show_join'] = True
         if context['event'].hide_join_checkbox:
             context['show_join'] = False
@@ -125,8 +125,8 @@ class Summary(ListDetailMixin, ListView, DetailView):
        from_email = request.POST.get('reply_to', '')
        extra_cc = [request.POST.get('extra_recipient', '')]
        bcc_to = []
-       registrants = self.object.getRegistrants()
-       for r in registrants:
+       participants = self.object.getParticipants()
+       for r in participants:
            bcc_to.append(r.person.email)
        msg = EmailMultiAlternatives(subject, message, from_email, [], bcc=bcc_to, cc=extra_cc)
        print(bcc_to)

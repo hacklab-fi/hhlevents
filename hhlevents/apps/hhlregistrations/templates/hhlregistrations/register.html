@@ -1,23 +1,53 @@
 {% extends "hhlregistrations/base_forms.html" %}
+{% load i18n %}
+{% load staticfiles %}
 {% load django_markdown %}
 
-{% block title %}{{ event.title }} | Ilmoittautuminen{% endblock title %}
+{% block extra_head %}
+{{ block.super }}
+<!-- Open Graph protocol -->
+<meta property="og:title" content="{{ event.title }}">
+<meta property="og:description" content="{{ event.description }}"><!-- huom, voi sis. markdownia -->
+<meta property="og:type" content="activity">
+<meta property="og:site_name" content="{{ META_SITE_NAME }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:street-address" content="{% for loc in event.location.all %}{% if forloop.first %}{{ loc.address_line_1 }}{% else %} | {{ loc.address_line_1 }}{% endif %}{% endfor %}">
+<meta property="og:locality" content="{% for loc in event.location.all %}{% if forloop.first %}{{ loc.city }}{% else %} | {{ loc.city }}{% endif %}{% endfor %}">
+<meta property="og:image" content="{{ request.get_host }}{% static META_DEFAULT_IMG %}">
+{% endblock extra_head %}
+
+
+{% block title %}{{ event.title }} | {% trans "Sign up for the event" %}{% endblock title %}
 
 {% block content %}
-    <h1>{{ event.title }} | Ilmoittautuminen</h1>
+    {% if event.isCancelled %}
+        <div class="event_box ann_red">{% trans "Note! There are cancellations in the event" %}
+        <ul>{% for can in event.cancellations.all %}<li>{{ can.reason }} ({{ can.date|date:"Y-m-d" }})</li>{% endfor %}</ul>
+        </div>
+    {% elif event.isPast %}
+        <div class="event_box ann_red">{% trans "Note! The event has ended" %}</div>
+    {% endif %}
+        
+    <h1>{{ event.title }} <span style="color:#A0A0A0;">| {% trans "Sign up for the event" %}</span></h1>
+    <p id="time_and_location">{% if event.isRepeating %}{% if event.isPast %}{% trans "No more occurrences" %}{% else %}{% trans "This is a repeating event, next occurrence: " %}{% endif %}{{ event.getNextEvent|date:"D Y-m-d" }}{% else %}{{ event.start_date|date:"D Y-m-d H:i" }} - {{ event.end_date|date:"D Y-m-d H:i" }}{% endif %} {% for loc in event.location.all %} | {{ loc }}{% endfor %}
     
-    {{ event.description|markdown }}
-
+    <div id="event_main_info">
+        <div id="event_img"><img src="{% static META_DEFAULT_IMG %}" alt="{{ META_DEFAULT_IMG }}" width="150"></div>
+        <div id="event_description">
+        {{ event.description|markdown }}
+       </div>
+    </div>
+    
     {% if not event.require_registration %}
-        <p>Tämä tapahtuma ei vaadi ennakkoilmoittautumista</p>
+        <div class="event_box ann_green"><p>{% trans "This event does not require pre-registering" %}</p></div>
     {% endif %}
     {% if registration_closed %}
-        <p>Tähän tapahtumaan ei voi enää ilmoittautua</p>
+        <div class="event_box ann_red"><p>{% trans "This event does accept further registering" %}</p></div>
     {% endif %}
     {% if waiting_list %}
-        <p>Tapahtuma on jo täynnä mutta voit ilmoittautua jonotuslistalle ja ilmoitamme mikäli paikkoja vapautuu</p>
+        <div class="event_box ann_yellow"><p>T{% trans "This event is full, but you can sign up for a place in queue. We will let you know if more places become available." %}</p></div>
     {% endif %}
-
+    
     {% if show_form %}
     <form method="post" class="rowformatted">
         {% csrf_token %}
@@ -27,7 +57,12 @@
         {{ form.non_field_errors }}
         <div class="row">
             <div class="col-md-12">
-                <h2>Pakolliset tiedot</h2>
+                {% if event.require_registration %}
+                <h2>{% trans "Mandatory registering information" %}</h2>
+                {% else %}
+                <h2>{% trans "Registering information" %}</h2>
+                <small>{% trans "Signing up is not required, but recommended" %}</small>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -72,7 +107,7 @@
         {% if show_optional %}
         <div class="row">
             <div class="col-md-12">
-                <h2>Valinnaiset tiedot</h2>
+                <h2>{% trans "Optional information" %}</h2>
             </div>
         </div>
         {% if show_materials %}
@@ -83,10 +118,12 @@
             <div class="col-md-10">
                 {{ form.wants_materials.errors }}
                 {{ form.wants_materials }}
-                Materiaalipaketti maksaa {{ event.materials_cost }} EURoa.
+                {% trans "Materials package costs" %} {{ event.materials_cost }} EUR.
             </div>
         </div>
         {% endif %}
+        
+        <!-- Valinnainen lisälomake jäseneksi liittymiseksi, jätetään toistaiseksi näin -->
         {% if show_join %}
         <div class="row">
             <div class="col-md-2">
@@ -95,7 +132,7 @@
             <div class="col-md-10">
                 {{ form.join.errors }}
                 {{ form.join }}
-                Olen lukenut <a href="http://helsinki.hacklab.fi/liity/" target="_blank">liittymissivun</a> ja hyväksyn <a href="http://helsinki.hacklab.fi/yhdistys/yhdistyksen-saannot/" target="_blank">Helsinki Hacklab ry:n säännöt</a>.
+                Olen lukenut <a href="http://helsinki.hacklab.fi/liity/" target="_blank">liittymissivun</a> ja hyväksyn <a href="http://helsinki.hacklab.fi/yhdistys/yhdistyksen-saannot/" target="_blank">yhdistyksen säännöt</a>.
             </div>
         </div>
         <div class="row">
