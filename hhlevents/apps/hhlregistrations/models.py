@@ -54,7 +54,7 @@ class Event(HappeningsEvent):
     def isPast(self):
         if self.repeats('NEVER') and timezone.now() > self.end_date:
             return True
-        elif self.end_repeat <= timezone.now().date():
+        elif not self.repeats('NEVER') and self.end_repeat <= timezone.now().date():
             return True
         return False
     def isCancelled(self):
