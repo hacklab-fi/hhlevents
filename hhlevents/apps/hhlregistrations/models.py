@@ -1,5 +1,7 @@
 import datetime
 import uuid
+from glob import glob
+from os.path import basename
 from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
@@ -9,9 +11,15 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _ # _lazy required
 from datetime import date
+from django.conf import settings
 
 
 class Event(HappeningsEvent):
+    # Get all png-images from static/img/
+    IMAGES = ( ("/static/img/"+basename(x), basename(x))
+              for x in glob(settings.HHLREGISTRATIONS_ROOT+"/static/img/*.png")
+             )
+
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     extra_url = models.URLField(blank=True)
     gforms_url = models.URLField(blank=True)
@@ -23,6 +31,7 @@ class Event(HappeningsEvent):
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
+    image = models.CharField(max_length=100, choices=IMAGES, default=0)   
     
     def formLink(self):
         tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
