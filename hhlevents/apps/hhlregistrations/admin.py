@@ -15,7 +15,7 @@ class EventAdmin(HappeningsEventAdmin):
         (None, {
             'fields': ('start_date', 'end_date', 'all_day', 'repeat',
                        'end_repeat', 'title', 'description',
-                       'created_by', 'extra_url', 'gforms_url',
+                       'created_by', 'extra_url', 'gforms_url', 'image',
                        )
         }),
         ('Location', {
@@ -23,7 +23,7 @@ class EventAdmin(HappeningsEventAdmin):
         }),
         ('Registrations', {
             'classes': ('collapse',),
-            'fields': ( 'require_registration', 'max_registrations', 'close_registrations',
+            'fields': ( 'registration_requirement', 'max_registrations', 'close_registrations',
                         'event_cost', 'materials_cost', 'materials_mandatory',
                         'payment_due', 'hide_join_checkbox',
                        )

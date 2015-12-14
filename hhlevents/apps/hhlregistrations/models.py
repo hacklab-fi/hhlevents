@@ -19,11 +19,15 @@ class Event(HappeningsEvent):
     IMAGES = ( ("/static/img/"+basename(x), basename(x))
               for x in glob(settings.HHLREGISTRATIONS_ROOT+"/static/img/*.png")
              )
-
+    # Options for registration requirements, also option for not accepting registrations
+    REG_REQUIREMENT = ( ('RQ', 'Required'),
+                        ('OP', 'Optional'),
+                        ('NO', 'None') )
+    
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     extra_url = models.URLField(blank=True)
     gforms_url = models.URLField(blank=True)
-    require_registration = models.BooleanField(default=False)
+    registration_requirement = models.CharField(max_length=2, choices=REG_REQUIREMENT)
     max_registrations = models.PositiveSmallIntegerField(default=0)
     close_registrations = models.DateTimeField(blank=True, null=True)
     payment_due = models.DateTimeField(blank=True, null=True)
@@ -35,7 +39,7 @@ class Event(HappeningsEvent):
     
     def formLink(self):
         tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
-        if not self.require_registration:
+        if self.registration_requirement in ('OP', 'NO'):
             # in italics if registration is optional
             tag = '<i>(' + tag + ')</i>'
         return tag
@@ -63,6 +67,9 @@ class Event(HappeningsEvent):
     def isPast(self):
         if self.repeats('NEVER') and timezone.now() > self.end_date:
             return True
+        elif not self.repeats('NEVER') and self.end_repeat < self.end_date.date():
+            # Error state, handle somehow differently later on
+            return False
         elif not self.repeats('NEVER') and self.end_repeat <= timezone.now().date():
             return True
         return False

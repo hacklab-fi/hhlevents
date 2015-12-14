@@ -28,7 +28,7 @@
   <table>
      {% for list_item in object_list %}
      <tr{% if list_item.isPast %} style="color: grey"{% endif %}>
-     <td><a href="./{{ list_item.uuid }}">{{ list_item }}</a></td>
+     <td><a href="{% url 'admin_extras:summary' slug=list_item.uuid %}">{{ list_item }}</a></td>
      <td>{{ list_item.start_date|date:"D d.m.Y H:i" }}</td>
      <td>{{ list_item.end_date|date:"D d.m.Y H:i" }}</td>
      <td>{% if list_item.cancellations.count > 0 %} <span style="color: #FF3030;" title="Cancellations in the event">&#9888;</span>{% endif %}</td>

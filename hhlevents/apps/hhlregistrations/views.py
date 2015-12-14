@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.utils import timezone
 
 
 class RegView(FormView):
@@ -24,7 +25,7 @@ class RegView(FormView):
 
         context['registration_closed'] = False
         if (    context['event'].close_registrations
-            and datetime.datetime.now() > context['event'].close_registrations):
+            and timezone.now() > context['event'].close_registrations): # timezone!
             context['registration_closed'] = True
             context['show_form'] = False
 

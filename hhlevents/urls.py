@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^markdown/', include( 'django_markdown.urls')), # No namespace, the library cannot live with it...
     url(r'^register/', include('hhlregistrations.urls', namespace='registrations')),
 
-    url(r'^admin/', include('hhlregistrations.urls-admin')),
+    url(r'^admin/', include('hhlregistrations.urls-admin', namespace='admin_extras')),
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'^jsi18n', 'django.views.i18n.javascript_catalog', js_info_dict),
