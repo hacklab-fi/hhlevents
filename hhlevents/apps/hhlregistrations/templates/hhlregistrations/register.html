@@ -28,17 +28,17 @@
         <div class="event_box ann_red">{% trans "Note! The event has ended" %}</div>
     {% endif %}
         
-    <h1>{{ event.title }} <span style="color:#A0A0A0;">| {% trans "Sign up for the event" %}</span></h1>
-    <p id="time_and_location">{% if event.isRepeating %}{% if event.isPast %}{% trans "No more occurrences" %}{% else %}{% trans "This is a repeating event, next occurrence: " %}{% endif %}{{ event.getNextEvent|date:"D Y-m-d" }}{% else %}{{ event.start_date|date:"D Y-m-d H:i" }} - {{ event.end_date|date:"D Y-m-d H:i" }}{% endif %} {% for loc in event.location.all %} | {{ loc }}{% endfor %}
+    <h1>{{ event.title }} <span style="color:#A0A0A0;">{% if show_form and event.registration_requirement != 'NO' %}| {% trans "Sign up for the event" %}</span>{% endif %}</h1>
+        <p id="time_and_location">{% if event.isRepeating %}{% if event.isPast %}{% trans "No more occurrences" %}{% else %}{% trans "This is a repeating event, next occurrence: " %}{% endif %}{{ event.getNextEvent|date:"D Y-m-d" }}{% else %}{{ event.start_date|date:"D Y-m-d H:i" }} - {{ event.end_date|date:"D Y-m-d H:i" }}{% endif %} {% for loc in event.location.all %} | {{ loc }}{% endfor %}
     
     <div id="event_main_info">
-        <div id="event_img"><img src="{% static META_DEFAULT_IMG %}" alt="{{ META_DEFAULT_IMG }}" width="150"></div>
+        <div id="event_img"><img src="{{ event.image }}" alt="{{ event.image }}" width="150"></div>
         <div id="event_description">
         {{ event.description|markdown }}
        </div>
     </div>
     
-    {% if not event.require_registration %}
+    {% if event.registration_requirement = 'OP' %}
         <div class="event_box ann_green"><p>{% trans "This event does not require pre-registering" %}</p></div>
     {% endif %}
     {% if registration_closed %}
@@ -48,7 +48,7 @@
         <div class="event_box ann_yellow"><p>T{% trans "This event is full, but you can sign up for a place in queue. We will let you know if more places become available." %}</p></div>
     {% endif %}
     
-    {% if show_form %}
+    {% if show_form and event.registration_requirement != 'NO' %}
     <form method="post" class="rowformatted">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
@@ -57,7 +57,7 @@
         {{ form.non_field_errors }}
         <div class="row">
             <div class="col-md-12">
-                {% if event.require_registration %}
+                {% if event.registration_requirement = 'RQ' %}
                 <h2>{% trans "Mandatory registering information" %}</h2>
                 {% else %}
                 <h2>{% trans "Registering information" %}</h2>

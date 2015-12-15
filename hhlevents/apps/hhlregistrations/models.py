@@ -1,5 +1,7 @@
 import datetime
 import uuid
+from glob import glob
+from os.path import basename
 from django.db import models
 from django_markdown.models import MarkdownField
 from django_markdown.fields import MarkdownFormField
@@ -8,14 +10,24 @@ from happenings.utils.next_event import get_next_event
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _ # _lazy required
+from django.utils.functional import lazy
 from datetime import date
+from django.conf import settings
 
+# Always get a fresh list of png-images from static/img/
+def IMAGES():
+    return [ ("/static/img/"+basename(x),basename(x)) for x in glob(settings.HHLREGISTRATIONS_ROOT+"/static/img/*.png") ]
 
 class Event(HappeningsEvent):
+    # Options for registration requirements, also option for not accepting registrations
+    REG_REQUIREMENT = ( ('RQ', 'Required'),
+                        ('OP', 'Optional'),
+                        ('NO', 'None') )
+    
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     extra_url = models.URLField(blank=True)
     gforms_url = models.URLField(blank=True)
-    require_registration = models.BooleanField(default=False)
+    registration_requirement = models.CharField(max_length=2, choices=REG_REQUIREMENT)
     max_registrations = models.PositiveSmallIntegerField(default=0)
     close_registrations = models.DateTimeField(blank=True, null=True)
     payment_due = models.DateTimeField(blank=True, null=True)
@@ -23,10 +35,11 @@ class Event(HappeningsEvent):
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
+    image = models.CharField(max_length=100, choices=lazy(IMAGES, tuple)())
     
     def formLink(self):
         tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
-        if not self.require_registration:
+        if self.registration_requirement in ('OP', 'NO'):
             # in italics if registration is optional
             tag = '<i>(' + tag + ')</i>'
         return tag
@@ -54,6 +67,9 @@ class Event(HappeningsEvent):
     def isPast(self):
         if self.repeats('NEVER') and timezone.now() > self.end_date:
             return True
+        elif not self.repeats('NEVER') and self.end_repeat < self.end_date.date():
+            # Error state, handle somehow differently later on
+            return False
         elif not self.repeats('NEVER') and self.end_repeat <= timezone.now().date():
             return True
         return False

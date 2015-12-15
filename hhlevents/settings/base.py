@@ -128,6 +128,10 @@ TEMPLATE_DIRS = (
     root('templates'), 
 )
 
+
+HHLREGISTRATIONS_ROOT = root('apps/hhlregistrations/')
+
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     # Django defaults (NOTE: we should """Set the 'context_processors' option in the OPTIONS of a DjangoTemplates backend instead.""")
     "django.contrib.auth.context_processors.auth",
