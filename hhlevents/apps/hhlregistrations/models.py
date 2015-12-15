@@ -10,15 +10,15 @@ from happenings.utils.next_event import get_next_event
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _ # _lazy required
+from django.utils.functional import lazy
 from datetime import date
 from django.conf import settings
 
+# Always get a fresh list of png-images from static/img/
+def IMAGES():
+    return [ ("/static/img/"+basename(x),basename(x)) for x in glob(settings.HHLREGISTRATIONS_ROOT+"/static/img/*.png") ]
 
 class Event(HappeningsEvent):
-    # Get all png-images from static/img/
-    IMAGES = ( ("/static/img/"+basename(x), basename(x))
-              for x in glob(settings.HHLREGISTRATIONS_ROOT+"/static/img/*.png")
-             )
     # Options for registration requirements, also option for not accepting registrations
     REG_REQUIREMENT = ( ('RQ', 'Required'),
                         ('OP', 'Optional'),
@@ -35,7 +35,7 @@ class Event(HappeningsEvent):
     materials_cost = models.PositiveSmallIntegerField(default=0)
     materials_mandatory = models.BooleanField(default=False)
     hide_join_checkbox = models.BooleanField(default=False)
-    image = models.CharField(max_length=100, choices=IMAGES, default=0)   
+    image = models.CharField(max_length=100, choices=lazy(IMAGES, tuple)())
     
     def formLink(self):
         tag = '<a href="' + reverse('registrations:register', args=[str(self.id)]) + '">Form</a>'
